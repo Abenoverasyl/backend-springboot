@@ -2,6 +2,8 @@ package kz.app.tasklist.backendspringboot.controller;
 
 import kz.app.tasklist.backendspringboot.entity.Category;
 import kz.app.tasklist.backendspringboot.repository.CategoryRepository;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,5 +21,10 @@ public class CategoryController {
     @RequestMapping("/all")
     public List<Category> getAll() {
         return categoryRepository.findAll();
+    }
+
+    @PostMapping("/add")
+    public Category add(@RequestBody Category category) {
+        return categoryRepository.save(category);
     }
 }
