@@ -1,9 +1,8 @@
 package kz.app.tasklist.backendspringboot.controller;
 
 import kz.app.tasklist.backendspringboot.entity.Category;
-import kz.app.tasklist.backendspringboot.entity.Category;
-import kz.app.tasklist.backendspringboot.entity.Priority;
 import kz.app.tasklist.backendspringboot.repository.CategoryRepository;
+import kz.app.tasklist.backendspringboot.search.CategorySearchValues;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,4 +81,14 @@ public class CategoryController {
         }
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+    // пойск по любым параметром CategorySearchValues
+    @PostMapping("/search")
+    public ResponseEntity<List<Category>> search(@RequestBody CategorySearchValues categorySearchValues) {
+
+        // если вместо текста будет пусто или null - вернутся все категории
+        return ResponseEntity.ok(categoryRepository.findByTitle(categorySearchValues.getText()));
+    }
+
+
 }
