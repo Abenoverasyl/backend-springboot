@@ -1,9 +1,7 @@
 package kz.app.tasklist.backendspringboot.controller;
 
-import kz.app.tasklist.backendspringboot.entity.Category;
 import kz.app.tasklist.backendspringboot.entity.Priority;
 import kz.app.tasklist.backendspringboot.repository.PriorityRepository;
-import kz.app.tasklist.backendspringboot.search.CategorySearchValues;
 import kz.app.tasklist.backendspringboot.search.PrioritySearchValues;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -12,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import static kz.app.tasklist.backendspringboot.util.MyLogger.showMethodName;
 
 @RestController
 @RequestMapping("/priority")
@@ -25,12 +25,13 @@ public class PriorityController {
 
     @GetMapping("/all")
     public List<Priority> getAll() {
+        showMethodName("PriorityController: getAll() -----------------------------------------");
         return priorityRepository.findAllByOrderByIdAsc();
     }
 
     @PostMapping("/add")
     public ResponseEntity<Priority> add(@RequestBody Priority priority){
-
+        showMethodName("PriorityController: add() -----------------------------------------");
         // проверка на объязательные параметры
         if (priority.getId() != null && priority.getId() != 0) {
             // id создается автоматически в БД (autoincrement), поетому его передавать не нужно,
@@ -54,7 +55,7 @@ public class PriorityController {
 
     @PutMapping("/update")
     public ResponseEntity update(@RequestBody Priority priority) {
-
+        showMethodName("PriorityController: update() -----------------------------------------");
         // проверка на объязательные параметры
         if (priority.getId() == null && priority.getId() == 0) {
             // id создается автоматически в БД (autoincrement), поетому его передавать не нужно,
@@ -78,7 +79,7 @@ public class PriorityController {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<Priority> findById(@PathVariable Long id) {
-
+        showMethodName("PriorityController: findById() -----------------------------------------");
         Priority priority = null;
 
         try {
@@ -92,6 +93,7 @@ public class PriorityController {
 
     @DeleteMapping("/delete/{id}")
     public  ResponseEntity deleteById(@PathVariable Long id) {
+        showMethodName("PriorityController: deleteById() -----------------------------------------");
         try {
             priorityRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
@@ -103,7 +105,7 @@ public class PriorityController {
 
     @PostMapping("/search")
     public ResponseEntity<List<Priority>> search(@RequestBody PrioritySearchValues prioritySearchValues) {
-
+        showMethodName("PriorityController: search() -----------------------------------------");
         // если вместо текста будет пусто или null - вернутся все категории
         return ResponseEntity.ok(priorityRepository.findByTitle(prioritySearchValues.getText()));
     }

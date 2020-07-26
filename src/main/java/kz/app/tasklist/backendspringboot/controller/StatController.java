@@ -4,6 +4,7 @@ import kz.app.tasklist.backendspringboot.entity.Stat;
 import kz.app.tasklist.backendspringboot.repository.StatRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import static kz.app.tasklist.backendspringboot.util.MyLogger.showMethodName;
 
 @RestController
 public class StatController {
@@ -17,7 +18,8 @@ public class StatController {
     }
 
     @GetMapping("/stat")
-    public ResponseEntity<Stat> getAll() {
+    public ResponseEntity<Stat> findById() {
+        showMethodName("StatController: getAll() -----------------------------------------");
         return ResponseEntity.ok(statRepository.findById(defaultId).get());
     }
 }
