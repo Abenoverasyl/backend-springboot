@@ -1,7 +1,10 @@
 package kz.app.tasklist.backendspringboot.controller;
 
+import kz.app.tasklist.backendspringboot.entity.Category;
 import kz.app.tasklist.backendspringboot.entity.Priority;
 import kz.app.tasklist.backendspringboot.repository.PriorityRepository;
+import kz.app.tasklist.backendspringboot.search.CategorySearchValues;
+import kz.app.tasklist.backendspringboot.search.PrioritySearchValues;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -96,5 +99,12 @@ public class PriorityController {
             return new ResponseEntity("id=" + id + " not found", HttpStatus.NOT_ACCEPTABLE);
         }
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<Priority>> search(@RequestBody PrioritySearchValues prioritySearchValues) {
+
+        // если вместо текста будет пусто или null - вернутся все категории
+        return ResponseEntity.ok(priorityRepository.findByTitle(prioritySearchValues.getText()));
     }
 }
