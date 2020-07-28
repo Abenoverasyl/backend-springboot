@@ -48,9 +48,9 @@ public class PriorityController {
         if (priority.getColor() == null || priority.getColor().trim().length() == 0) {
             return new ResponseEntity("missed param: color", HttpStatus.NOT_ACCEPTABLE);
         }
-
+        priorityRepository.save(priority);
         // save работает как на дабавление, так и на обновления
-        return ResponseEntity.ok(priorityRepository.save(priority));
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/update")
@@ -72,9 +72,9 @@ public class PriorityController {
         if (priority.getColor() == null || priority.getColor().trim().length() == 0) {
             return new ResponseEntity("missed param: color", HttpStatus.NOT_ACCEPTABLE);
         }
-
+        priorityRepository.save(priority);
         // save работает как на дабавление, так и на обновления
-        return ResponseEntity.ok(priorityRepository.save(priority));
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/id/{id}")
@@ -100,7 +100,8 @@ public class PriorityController {
             e.printStackTrace();
             return new ResponseEntity("id=" + id + " not found", HttpStatus.NOT_ACCEPTABLE);
         }
-        return ResponseEntity.ok(HttpStatus.OK);
+        priorityRepository.deleteById(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/search")
